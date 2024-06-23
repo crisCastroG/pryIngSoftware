@@ -28,8 +28,6 @@ public class Menu extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMAgregar = new javax.swing.JMenu();
-        jMModificar = new javax.swing.JMenu();
         jMListar = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -37,22 +35,6 @@ public class Menu extends javax.swing.JFrame {
         jLabel1.setBackground(new java.awt.Color(0, 0, 0));
         jLabel1.setFont(new java.awt.Font("Segoe Script", 1, 36)); // NOI18N
         jLabel1.setText("Welcome To MASTERBIKES");
-
-        jMAgregar.setText("Agregar Stock");
-        jMAgregar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMAgregarMouseClicked(evt);
-            }
-        });
-        jMenuBar1.add(jMAgregar);
-
-        jMModificar.setText("Modificar Stock");
-        jMModificar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMModificarMouseClicked(evt);
-            }
-        });
-        jMenuBar1.add(jMModificar);
 
         jMListar.setText("Listar Stock");
         jMListar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -83,16 +65,6 @@ public class Menu extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jMAgregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMAgregarMouseClicked
-        AgregarStock v = AgregarStock.getInstancia();
-        v.setVisible(true);
-    }//GEN-LAST:event_jMAgregarMouseClicked
-
-    private void jMModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMModificarMouseClicked
-        ModificarStock v = ModificarStock.getInstancia();
-        v.setVisible(true);
-    }//GEN-LAST:event_jMModificarMouseClicked
 
     private void jMListarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMListarMouseClicked
         ListaStock v = ListaStock.getInstancia();
@@ -136,9 +108,7 @@ public class Menu extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JMenu jMAgregar;
     private javax.swing.JMenu jMListar;
-    private javax.swing.JMenu jMModificar;
     private javax.swing.JMenuBar jMenuBar1;
     // End of variables declaration//GEN-END:variables
 }
