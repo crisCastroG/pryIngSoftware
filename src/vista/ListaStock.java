@@ -1,5 +1,6 @@
 package vista;
 
+import controlador.Registro;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import modelo.Producto;
@@ -122,10 +123,20 @@ public class ListaStock extends javax.swing.JFrame {
     }
     
         private void LlenarTabla(){
-        DefaultTableModel model = (DefaultTableModel) jTListaProductos.getModel();
-        model.setRowCount(0);
+        Object[][] data = {};
+        String[] columnNames = {"Código#", "Nombre", "Stock"};
+        DefaultTableModel tableModel = new DefaultTableModel(data,columnNames) {
+
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        Registro reg = new Registro();
+        //DefaultTableModel model = (DefaultTableModel) jTListaProductos.getModel();
+        tableModel.setRowCount(0);
         //TO DO
-        ArrayList<Producto> lista =  new ArrayList();//Registro.listarTodos();
+        ArrayList<Producto> lista =  reg.getListaProductos();
         Object[] registro = new Object[4];
         
         for (Producto producto : lista) {
@@ -135,10 +146,10 @@ public class ListaStock extends javax.swing.JFrame {
             registro[1] = prod.getNombre_prod();
             registro[2] = prod.getPrecio_prod();
             
-            model.addRow(registro);
+            tableModel.addRow(registro);
         }
         
-        jTListaProductos.getModel();
+        jTListaProductos.setModel(tableModel);
         
     }
 
