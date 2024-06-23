@@ -5,6 +5,9 @@ public class Producto {
     private int cod_prod;
     private String nombre_prod;
     private int precio_prod;
+    private int stock;
+
+   
 
     public Producto() {
     }
@@ -37,6 +40,13 @@ public class Producto {
 
     public void setPrecio_prod(int precio_prod) {
         this.precio_prod = precio_prod;
+    }
+     public int getStock() {
+        return stock;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
     }
     
     
