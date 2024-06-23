@@ -171,9 +171,7 @@ public class ListaStock extends javax.swing.JFrame {
             }
         };
         Registro reg = new Registro();
-        //DefaultTableModel model = (DefaultTableModel) jTListaProductos.getModel();
         tableModel.setRowCount(0);
-        //TO DO
         ArrayList<Producto> lista =  reg.getListaProductos();
         Object[] registro = new Object[4];
         
@@ -186,7 +184,8 @@ public class ListaStock extends javax.swing.JFrame {
             
             tableModel.addRow(registro);
         }
-        
+        jTListaProductos.getColumnModel().getColumn(0).setWidth(20);
+
         jTListaProductos.setModel(tableModel);
         
     }
