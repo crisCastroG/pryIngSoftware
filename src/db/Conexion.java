@@ -1,6 +1,9 @@
 package db;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+
+
 
 public class Conexion {
 
@@ -12,7 +15,7 @@ public class Conexion {
 
         Connection connection = null;
         try {
-            String bbdd_mysql = "employeedb";
+            String bbdd_mysql = "bicicletadb";
             String user_mysql = "root";
             String pass_mysql = "";
             String driverClassName = "com.mysql.jdbc.Driver";
