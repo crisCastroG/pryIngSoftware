@@ -31,6 +31,7 @@ public class Menu extends javax.swing.JFrame {
         jMAgregar = new javax.swing.JMenu();
         jMModificar = new javax.swing.JMenu();
         jMListar = new javax.swing.JMenu();
+        jMenu1 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -62,6 +63,9 @@ public class Menu extends javax.swing.JFrame {
         });
         jMenuBar1.add(jMListar);
 
+        jMenu1.setText("Buscar Stock");
+        jMenuBar1.add(jMenu1);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -76,9 +80,9 @@ public class Menu extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(123, 123, 123)
+                .addGap(89, 89, 89)
                 .addComponent(jLabel1)
-                .addContainerGap(146, Short.MAX_VALUE))
+                .addContainerGap(180, Short.MAX_VALUE))
         );
 
         pack();
@@ -139,6 +143,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenu jMAgregar;
     private javax.swing.JMenu jMListar;
     private javax.swing.JMenu jMModificar;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     // End of variables declaration//GEN-END:variables
 }
