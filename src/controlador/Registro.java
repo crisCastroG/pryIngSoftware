@@ -1,17 +1,22 @@
-
 package controlador;
 
+import db.Conexion;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import modelo.Producto;
 
-public class Registro {    
-    
+public class Registro {
+
     private ArrayList<Producto> listaProductos = new ArrayList<Producto>();
 
     public ArrayList<Producto> getListaProductos() {
         return listaProductos;
     }
-    
+
     Producto prod1 = new Producto(1, "Casco", 5);
     Producto prod2 = new Producto(2, "Luces delanteras", 8);
     Producto prod3 = new Producto(3, "Luces traseras", 7);
@@ -61,7 +66,7 @@ public class Registro {
     Producto prod47 = new Producto(47, "Bomba de pie", 9);
     Producto prod48 = new Producto(48, "Bomba portátil", 5);
     Producto prod49 = new Producto(49, "Llaves Allen", 4);
-    Producto prod50 = new Producto(50, "Llaves de radios", 7);  
+    Producto prod50 = new Producto(50, "Llaves de radios", 7);
 
     public Registro() {
         listaProductos.add(prod1);
@@ -115,8 +120,44 @@ public class Registro {
         listaProductos.add(prod49);
         listaProductos.add(prod50);
     }
+
+    public static ArrayList<Producto> ObtenerListaProductos() {
+        ArrayList<Producto> productos = new ArrayList<Producto>();
+        try {
+            Connection conexion = Conexion.getConexion();
+            String query = "SELECT * FROM producto";
+            PreparedStatement listarTodos = conexion.prepareStatement(query);
+            ResultSet rs = listarTodos.executeQuery();
+            while (rs.next()) {
+                Producto prod = new Producto();
+                prod.setCod_prod(rs.getInt("nro_producto"));
+                prod.setNombre_prod(rs.getString("nomb_producto"));
+                prod.setStock(rs.getInt("stock"));
+                productos.add(prod);
+            }
+
+        } catch (SQLException s) {
+            JOptionPane.showMessageDialog(null, "Error SQL al mostrar productos " + s.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al mostrar productos " + e.getMessage());
+        }
+        return productos;
+    }
     
-    
-    
+    public static void ModificarStock(int cod_producto,int stock) {
+        try {
+            Connection conexion = Conexion.getConexion();
+            String query = "UPDATE producto SET stock = ? WHERE nro_producto = ?";
+            PreparedStatement modificar = conexion.prepareStatement(query);
+            modificar.setInt(0, stock);
+            modificar.setInt(1, cod_producto);
+
+        } catch (SQLException s) {
+            JOptionPane.showMessageDialog(null, "Error SQL al mostrar productos " + s.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al mostrar productos " + e.getMessage());
+        }
+        
+    }
 
 }

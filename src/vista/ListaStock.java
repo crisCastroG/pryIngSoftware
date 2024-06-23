@@ -172,7 +172,7 @@ public class ListaStock extends javax.swing.JFrame {
         };
         Registro reg = new Registro();
         tableModel.setRowCount(0);
-        ArrayList<Producto> lista =  reg.getListaProductos();
+        ArrayList<Producto> lista = Registro.ObtenerListaProductos();
         Object[] registro = new Object[4];
         
         for (Producto producto : lista) {
@@ -180,7 +180,7 @@ public class ListaStock extends javax.swing.JFrame {
             Producto prod = producto;
             registro[0] = prod.getCod_prod();
             registro[1] = prod.getNombre_prod();
-            registro[2] = prod.getPrecio_prod();
+            registro[2] = prod.getStock();
             
             tableModel.addRow(registro);
         }
