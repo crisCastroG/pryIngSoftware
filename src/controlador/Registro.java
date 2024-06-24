@@ -149,8 +149,8 @@ public class Registro {
             Connection conexion = Conexion.getConexion();
             String query = "UPDATE producto SET stock = ? WHERE nro_producto = ?";
             PreparedStatement modificar = conexion.prepareStatement(query);
-            modificar.setInt(0, stock);
-            modificar.setInt(1, cod_producto);
+            modificar.setInt(1, stock);
+            modificar.setInt(2, cod_producto);
 
         } catch (SQLException s) {
             JOptionPane.showMessageDialog(null, "Error SQL al mostrar productos " + s.getMessage());
@@ -159,5 +159,51 @@ public class Registro {
         }
         
     }
+    
+    public static ArrayList<Producto> ObtenerListaProductosFiltrada(String busqueda) {
+            ArrayList<Producto> productos = new ArrayList<Producto>();
+            try {
+                Connection conexion = Conexion.getConexion();
+                String query = "SELECT * FROM producto WHERE nro_producto LIKE ? OR nomb_producto LIKE ?";
+                PreparedStatement buscar = conexion.prepareStatement(query);
+                buscar.setString(1, busqueda);
+                buscar.setString(2, "%"+busqueda+"%");
+                ResultSet rs = buscar.executeQuery();
+                while (rs.next()) {
+                    Producto prod = new Producto();
+                    prod.setCod_prod(rs.getInt("nro_producto"));
+                    prod.setNombre_prod(rs.getString("nomb_producto"));
+                    prod.setStock(rs.getInt("stock"));
+                    productos.add(prod);
+                }
 
+            } catch (SQLException s) {
+                JOptionPane.showMessageDialog(null, "Error SQL al mostrar productos " + s.getMessage());
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Error al mostrar productos " + e.getMessage());
+            }
+            return productos;
+        }
+      public static ArrayList<Producto> ObtenerListaBajoStock() {
+            ArrayList<Producto> productos = new ArrayList<Producto>();
+            try {
+                Connection conexion = Conexion.getConexion();
+                String query = "SELECT * FROM producto WHERE stock IN (0,1,2)";
+                PreparedStatement buscar = conexion.prepareStatement(query);
+                ResultSet rs = buscar.executeQuery();
+                while (rs.next()) {
+                    Producto prod = new Producto();
+                    prod.setCod_prod(rs.getInt("nro_producto"));
+                    prod.setNombre_prod(rs.getString("nomb_producto"));
+                    prod.setStock(rs.getInt("stock"));
+                    productos.add(prod);
+                }
+
+            } catch (SQLException s) {
+                JOptionPane.showMessageDialog(null, "Error SQL al mostrar productos " + s.getMessage());
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Error al mostrar productos " + e.getMessage());
+            }
+            return productos;
+        }
 }

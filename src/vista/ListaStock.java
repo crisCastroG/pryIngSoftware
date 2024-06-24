@@ -12,7 +12,7 @@ import modelo.Producto;
 public class ListaStock extends javax.swing.JFrame {
 
     private static ListaStock instancia;
-    
+    private DefaultTableModel tableModel;
     public static ListaStock getInstancia(){
         if(instancia == null){
             instancia = new ListaStock();
@@ -36,6 +36,8 @@ public class ListaStock extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         btnAgregar = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
+        jbuscar = new javax.swing.JButton();
+        jStock = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -86,27 +88,44 @@ public class ListaStock extends javax.swing.JFrame {
             }
         });
 
+        jbuscar.setText("Buscar");
+        jbuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbuscarActionPerformed(evt);
+            }
+        });
+
+        jStock.setText("Bajo Stock");
+        jStock.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jStockActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 298, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addContainerGap())
-            .addComponent(jScrollPane1)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 640, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jNombreBuscarProducto)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jBuscador, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnAgregar)
-                .addGap(18, 18, 18)
-                .addComponent(btnModificar)
-                .addGap(34, 34, 34))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jNombreBuscarProducto)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jBuscador, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jbuscar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jStock, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnAgregar))
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnModificar))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -114,19 +133,15 @@ public class ListaStock extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jButton1))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jNombreBuscarProducto)
-                            .addComponent(jBuscador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnModificar)
-                            .addComponent(btnAgregar))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jNombreBuscarProducto)
+                    .addComponent(jBuscador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbuscar)
+                    .addComponent(jStock)
+                    .addComponent(btnAgregar)
+                    .addComponent(btnModificar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -151,6 +166,18 @@ public class ListaStock extends javax.swing.JFrame {
         v.setVisible(true);
     }//GEN-LAST:event_btnModificarActionPerformed
 
+    private void jbuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbuscarActionPerformed
+        String busqueda = jBuscador.getText();
+        FiltrarTabla(busqueda);
+        
+    }//GEN-LAST:event_jbuscarActionPerformed
+
+    private void jStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jStockActionPerformed
+       FiltrarTablaStockBajo();
+       
+        
+    }//GEN-LAST:event_jStockActionPerformed
+
     public static void main(String args[]) {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -163,7 +190,7 @@ public class ListaStock extends javax.swing.JFrame {
         private void LlenarTabla(){
         Object[][] data = {};
         String[] columnNames = {"Código#", "Nombre", "Stock"};
-        DefaultTableModel tableModel = new DefaultTableModel(data,columnNames) {
+        tableModel = new DefaultTableModel(data,columnNames) {
 
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -189,7 +216,51 @@ public class ListaStock extends javax.swing.JFrame {
         jTListaProductos.setModel(tableModel);
         
     }
+        
+         private void FiltrarTabla(String busqueda){
+        DefaultTableModel model = tableModel;
+        Registro reg = new Registro();
+        model.setRowCount(0);
+        ArrayList<Producto> lista = Registro.ObtenerListaProductosFiltrada(busqueda);
+        Object[] registro = new Object[4];
+        
+        for (Producto producto : lista) {
+            
+            Producto prod = producto;
+            registro[0] = prod.getCod_prod();
+            registro[1] = prod.getNombre_prod();
+            registro[2] = prod.getStock();
+            
+            model.addRow(registro);
+        }
+        jTListaProductos.getColumnModel().getColumn(0).setWidth(20);
 
+        jTListaProductos.setModel(model);
+        
+    }
+         private void FiltrarTablaStockBajo(){
+        DefaultTableModel model = tableModel;
+        Registro reg = new Registro();
+        model.setRowCount(0);
+        ArrayList<Producto> lista = Registro.ObtenerListaBajoStock();
+        Object[] registro = new Object[4];
+        
+        for (Producto producto : lista) {
+            
+            Producto prod = producto;
+            registro[0] = prod.getCod_prod();
+            registro[1] = prod.getNombre_prod();
+            registro[2] = prod.getStock();
+            
+            model.addRow(registro);
+        }
+        jTListaProductos.getColumnModel().getColumn(0).setWidth(20);
+
+        jTListaProductos.setModel(model);
+        
+    }
+
+        
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnModificar;
@@ -198,6 +269,8 @@ public class ListaStock extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jNombreBuscarProducto;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton jStock;
     private javax.swing.JTable jTListaProductos;
+    private javax.swing.JButton jbuscar;
     // End of variables declaration//GEN-END:variables
 }
