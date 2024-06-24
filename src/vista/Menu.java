@@ -31,6 +31,7 @@ public class Menu extends javax.swing.JFrame {
         jMListar = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jLabel1.setBackground(new java.awt.Color(0, 0, 0));
         jLabel1.setFont(new java.awt.Font("Segoe Script", 1, 36)); // NOI18N
@@ -64,6 +65,7 @@ public class Menu extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMListarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMListarMouseClicked

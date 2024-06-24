@@ -144,19 +144,22 @@ public class Registro {
         return productos;
     }
     
-    public static void ModificarStock(int cod_producto,int stock) {
+    public static boolean ModificarStock(int cod_producto,int stock) {
         try {
             Connection conexion = Conexion.getConexion();
             String query = "UPDATE producto SET stock = ? WHERE nro_producto = ?";
             PreparedStatement modificar = conexion.prepareStatement(query);
             modificar.setInt(1, stock);
             modificar.setInt(2, cod_producto);
-
+            modificar.execute();
         } catch (SQLException s) {
-            JOptionPane.showMessageDialog(null, "Error SQL al mostrar productos " + s.getMessage());
+            JOptionPane.showMessageDialog(null, "Error SQL al modificar producto " + s.getMessage());
+            return false;
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error al mostrar productos " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al modificar producto " + e.getMessage());
+            return false;
         }
+        return true;
         
     }
     

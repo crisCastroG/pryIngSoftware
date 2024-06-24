@@ -4,6 +4,9 @@
  */
 package vista;
 
+import controlador.Registro;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author hecto
@@ -11,14 +14,20 @@ package vista;
 public class ModificarStock extends javax.swing.JFrame {
 
     private static ModificarStock instancia;
+    private int cod_producto;
     
-    public static ModificarStock getInstancia(){
+    public static ModificarStock getInstancia(int cod){
         if(instancia == null){
-            instancia = new ModificarStock();
+            instancia = new ModificarStock(cod);
         }
         return instancia;
     }
+    
     public ModificarStock() {
+    }
+    
+    public ModificarStock(int cod) {
+        cod_producto = cod;
         initComponents();
     }
 
@@ -39,6 +48,7 @@ public class ModificarStock extends javax.swing.JFrame {
         btModificar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setText("Modificar Stock");
@@ -115,6 +125,7 @@ public class ModificarStock extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBSalirActionPerformed
@@ -130,7 +141,26 @@ public class ModificarStock extends javax.swing.JFrame {
     }//GEN-LAST:event_jbLimpiarActionPerformed
 
     private void btModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btModificarActionPerformed
-        // TODO add your handling code here:
+        try{
+            if(Integer.parseInt(tfModificarCantidad.getText()) <= 0)
+            {
+                JOptionPane.showMessageDialog(null, "El número ingresado debe ser mayor a 0");
+            }
+            else
+            if(Registro.ModificarStock(cod_producto, Integer.parseInt(tfModificarCantidad.getText())))
+                {
+                    JOptionPane.showMessageDialog(null, "Stock modificado");
+                    ListaStock.getInstancia().FiltrarTabla(cod_producto + "");
+                    this.dispose();                    
+                }
+            else
+                {
+                    JOptionPane.showMessageDialog(null, "Error al modificar stock");
+                }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Ingrese un stock válido");
+        }
     }//GEN-LAST:event_btModificarActionPerformed
 
     /**

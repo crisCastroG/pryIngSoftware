@@ -4,6 +4,9 @@
  */
 package vista;
 
+import controlador.Registro;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author hecto
@@ -11,15 +14,22 @@ package vista;
 public class AgregarStock extends javax.swing.JFrame {
 
     private static AgregarStock instancia;
+    private int cod_producto;
+    private int stock;
     
-    public static AgregarStock getInstancia(){
+    public static AgregarStock getInstancia(int cod, int stockActual){
         if(instancia == null){
-            instancia = new AgregarStock();
+            instancia = new AgregarStock(cod,stockActual);
         }
         return instancia;
     }
-    
+
     public AgregarStock() {
+    }
+     
+    public AgregarStock(int cod, int stockActual) {
+        cod_producto = cod;
+        stock = stockActual;
         initComponents();
     }
 
@@ -40,6 +50,7 @@ public class AgregarStock extends javax.swing.JFrame {
         jbAgregar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setText("Agregar Stock");
@@ -68,6 +79,11 @@ public class AgregarStock extends javax.swing.JFrame {
         });
 
         jbAgregar.setText("Agregar");
+        jbAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbAgregarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -112,6 +128,7 @@ public class AgregarStock extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBSalirActionPerformed
@@ -125,6 +142,33 @@ public class AgregarStock extends javax.swing.JFrame {
     private void tfAñadirCantidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfAñadirCantidadActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfAñadirCantidadActionPerformed
+
+    private void jbAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAgregarActionPerformed
+        try{
+            if(Integer.parseInt(tfAñadirCantidad.getText()) <= 0)
+            {
+                JOptionPane.showMessageDialog(null, "El número ingresado debe ser mayor a 0");
+            }
+            else
+            if(Registro.ModificarStock(cod_producto, stock + Integer.parseInt(tfAñadirCantidad.getText())))
+                {
+                    JOptionPane.showMessageDialog(null, "Stock agregado");
+                    ListaStock.getInstancia().FiltrarTabla(cod_producto + "");
+                    this.dispose();
+                    
+                }
+            else
+                {
+                    JOptionPane.showMessageDialog(null, "Error al agregar stock");
+                }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Ingrese un stock válido");
+        }
+
+        
+        
+    }//GEN-LAST:event_jbAgregarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -160,6 +204,7 @@ public class AgregarStock extends javax.swing.JFrame {
                 new AgregarStock().setVisible(true);
             }
         });
+        
     }
     private void LimpiarTextos(){
         tfAñadirCantidad.setText("");
