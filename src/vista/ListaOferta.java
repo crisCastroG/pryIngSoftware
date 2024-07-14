@@ -100,6 +100,11 @@ public class ListaOferta extends javax.swing.JFrame {
         });
 
         btnEnviarOferta.setText("Enviar Oferta");
+        btnEnviarOferta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEnviarOfertaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -171,6 +176,11 @@ public class ListaOferta extends javax.swing.JFrame {
         EliminarOferta n = EliminarOferta.getInstancia();
         n.setVisible(true);
     }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnEnviarOfertaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarOfertaActionPerformed
+        EnviarOferta a = EnviarOferta.getInstancia();
+        a.setVisible(true);
+    }//GEN-LAST:event_btnEnviarOfertaActionPerformed
          
     /**
      * @param args the command line arguments
