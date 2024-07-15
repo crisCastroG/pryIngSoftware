@@ -4,6 +4,11 @@
  */
 package vista;
 
+import controlador.Registro;
+import java.util.ArrayList;
+import java.util.Date;
+import javax.swing.table.DefaultTableModel;
+import modelo.Oferta;
 import vista.EliminarOferta;
 import vista.ModificarOferta;
 
@@ -14,6 +19,9 @@ import vista.ModificarOferta;
 public class ListaOferta extends javax.swing.JFrame {
 
     private static ListaOferta instancia;
+    private DefaultTableModel tableModel;
+    private int selectedCod;
+    private ArrayList<Oferta> ofertas = new ArrayList<>();
     
     public static ListaOferta getInstancia(){
         if(instancia == null){
@@ -23,6 +31,13 @@ public class ListaOferta extends javax.swing.JFrame {
     }
     public ListaOferta() {
         initComponents();
+
+         ofertas.add(new Oferta(1, "Oferta 1", "Descripción de la oferta 1", new Date(2024, 7, 31)));
+         ofertas.add(new Oferta(2, "Oferta 2", "Descripción de la oferta 2", new Date(2024, 8, 15)));
+         ofertas.add(new Oferta(3, "Oferta 3", "Descripción de la oferta 3", new Date(2024, 9, 10)));
+         ofertas.add(new Oferta(4, "Oferta 4", "Descripción de la oferta 4", new Date(2024, 10, 5)));
+         ofertas.add(new Oferta(5, "Oferta 5", "Descripción de la oferta 5", new Date(2024, 11, 25)));
+         LlenarTabla();
     }
 
     /**
@@ -215,6 +230,35 @@ public class ListaOferta extends javax.swing.JFrame {
                 new ListaOferta().setVisible(true);
             }
         });
+    }
+    
+    public void LlenarTabla(){
+        Object[][] data = {};
+        String[] columnNames = {"Código#", "Titulo", "Descripcion","Fecha"};
+        tableModel = new DefaultTableModel(data,columnNames) {
+
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        Registro reg = new Registro();
+        tableModel.setRowCount(0);
+        //ArrayList<Oferta> lista = Registro.ObtenerListaProductos();
+        Object[] registro = new Object[4];
+        
+        for (Oferta producto : ofertas) {
+            
+            Oferta prod = producto;
+            registro[0] = prod.getCod_oferta();
+            registro[1] = prod.getTit_oferta();
+            registro[2] = prod.getDesc_oferta();
+            registro[3] = prod.getFecha_termino();
+            
+            tableModel.addRow(registro);
+        }
+
+        jtListaOfertas.setModel(tableModel);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -185,6 +185,7 @@ public class ListaStock extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        
         if(jTListaProductos.getSelectedRow() == -1)
         {
              JOptionPane.showMessageDialog(null, "Seleccione un producto antes de agregar o modificar.");
@@ -200,6 +201,7 @@ public class ListaStock extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        
         if(jTListaProductos.getSelectedRow() == -1)
         {
              JOptionPane.showMessageDialog(null, "Seleccione un producto antes de agregar o modificar.");

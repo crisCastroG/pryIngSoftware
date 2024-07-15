@@ -191,7 +191,6 @@ public class AgregarOferta extends javax.swing.JFrame {
     }
     
     private void LimpiarTextos(){
-        tfCodigoOferta.setText("");
         taDescripcion.setText("");
         tfNombreO.setText("");
     }
