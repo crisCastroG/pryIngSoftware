@@ -5,8 +5,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import modelo.Oferta;
 import modelo.Producto;
 
 public class Registro {
@@ -209,4 +211,80 @@ public class Registro {
             }
             return productos;
         }
+      public static Boolean AgregarOferta (Oferta oferta) {
+        try {
+            Connection conexion = Conexion.getConexion();
+            String query = "INSERT INTO oferta VALUES (?,?,DATE(?)) ";
+            PreparedStatement agregar = conexion.prepareStatement(query);
+            agregar.setString(1, oferta.getTit_oferta());
+            agregar.setString(2, oferta.getDesc_oferta());
+            agregar.setString(3, oferta.getFecha_termino().toString());
+            agregar.execute();
+        } catch (SQLException s) {
+            JOptionPane.showMessageDialog(null, "Error SQL al agregar oferta " + s.getMessage());
+            return false;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al agregar oferta " + e.getMessage());
+            return false;
+        }
+        return true;
+    }
+      public static Boolean ModificarOferta (Oferta oferta) {
+        try {
+            Connection conexion = Conexion.getConexion();
+            String query = "UPDATE oferta SET nombre = ?,descripcion = ?,fecha_term = DATE(?) WHERE codigo = ?";
+            PreparedStatement modificar = conexion.prepareStatement(query);
+            modificar.setString(1, oferta.getTit_oferta());
+            modificar.setString(2, oferta.getDesc_oferta());
+            modificar.setString(3, oferta.getFecha_termino().toString());
+            modificar.setInt(4,oferta.getCod_oferta());
+            modificar.execute();
+        } catch (SQLException s) {
+            JOptionPane.showMessageDialog(null, "Error SQL al modificar oferta " + s.getMessage());
+            return false;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al modificar oferta " + e.getMessage());
+            return false;
+        }
+        return true;
+      }
+      public static Boolean EliminarOferta (Oferta oferta) {
+        try {
+            Connection conexion = Conexion.getConexion();
+            String query = "DELETE FROM oferta WHERE codigo = ?";
+            PreparedStatement eliminar = conexion.prepareStatement(query);
+            eliminar.setInt(1, oferta.getCod_oferta());
+            eliminar.execute();
+        } catch (SQLException s) {
+            JOptionPane.showMessageDialog(null, "Error SQL al eliminar oferta " + s.getMessage());
+            return false;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al eliminar oferta " + e.getMessage());
+            return false;
+        }
+        return true;
+      }
+      public static ArrayList<Oferta> ObtenerListaOfertas() {
+        ArrayList<Oferta> ofertas = new ArrayList<Oferta>();
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-mm-dd");
+        try {
+            Connection conexion = Conexion.getConexion();
+            String query = "SELECT * FROM oferta";
+            PreparedStatement listarTodos = conexion.prepareStatement(query);
+            ResultSet rs = listarTodos.executeQuery();
+            while (rs.next()) {
+                Oferta ofer = new Oferta();
+                ofer.setCod_oferta(rs.getInt("cod_oferta"));
+                ofer.setTit_oferta(rs.getString("tit_oferta"));
+                ofer.setFecha_termino(formato.parse( rs.getString("fecha_term")));
+                ofertas.add(ofer);
+            }
+
+        } catch (SQLException s) {
+            JOptionPane.showMessageDialog(null, "Error SQL al mostrar ofertas " + s.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al mostrar ofertas " + e.getMessage());
+        }
+        return ofertas;
+ }
 }
