@@ -4,7 +4,10 @@
  */
 package vista;
 
+import controlador.Registro;
+import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
+import modelo.Oferta;
 
 /**
  *
@@ -13,15 +16,25 @@ import javax.swing.JOptionPane;
 public class EliminarOferta extends javax.swing.JFrame {
 
     private static EliminarOferta instancia;
+    private int codigo_oferta;
     
-    public static EliminarOferta getInstancia(){
+    public static EliminarOferta getInstancia(Oferta oferta){
         if(instancia == null){
-            instancia = new EliminarOferta();
+            instancia = new EliminarOferta(oferta);
         }
         return instancia;
     }
     public EliminarOferta() {
         initComponents();
+    }
+    
+    public EliminarOferta(Oferta oferta) {
+        initComponents();
+        codigo_oferta = oferta.getCod_oferta();
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+        tfNombreOferta.setText(oferta.getTit_oferta());
+        taDescripcion.setText(oferta.getDesc_oferta());
+        tfFechaTermino.setText(formato.format(oferta.getFecha_termino()));
     }
 
     /**
@@ -33,7 +46,6 @@ public class EliminarOferta extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btnLimpiar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JToggleButton();
         tfNombreOferta = new javax.swing.JTextField();
         Titulo = new javax.swing.JLabel();
@@ -43,16 +55,10 @@ public class EliminarOferta extends javax.swing.JFrame {
         jFechaTermino = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         taDescripcion = new javax.swing.JTextArea();
-        jSelecionaFecha = new com.toedter.calendar.JDateChooser();
+        tfFechaTermino = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        btnLimpiar.setText("Limpiar");
-        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLimpiarActionPerformed(evt);
-            }
-        });
+        setResizable(false);
 
         btnEliminar.setText("Eliminar");
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
@@ -61,13 +67,15 @@ public class EliminarOferta extends javax.swing.JFrame {
             }
         });
 
+        tfNombreOferta.setEditable(false);
+
         Titulo.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         Titulo.setText("Eliminar Oferta");
         Titulo.setToolTipText("");
 
         jNombreOferta.setText("Nombre:");
 
-        jDescripcion.setText("Descripcion:");
+        jDescripcion.setText("Descripción:");
 
         btnSalir.setText("Volver");
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -76,45 +84,46 @@ public class EliminarOferta extends javax.swing.JFrame {
             }
         });
 
-        jFechaTermino.setText("Fecha de Termino:");
+        jFechaTermino.setText("Fecha de término:");
 
+        taDescripcion.setEditable(false);
         taDescripcion.setColumns(20);
         taDescripcion.setRows(5);
         jScrollPane1.setViewportView(taDescripcion);
+
+        tfFechaTermino.setEditable(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(84, 84, 84)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jNombreOferta, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfNombreOferta, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnSalir))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(84, 84, 84)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(99, 99, 99)
-                                .addComponent(btnLimpiar))
+                                .addComponent(jNombreOferta, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(tfNombreOferta))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jFechaTermino, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jSelecionaFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(tfFechaTermino, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jDescripcion)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 97, Short.MAX_VALUE)))
-                .addContainerGap())
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(179, 179, 179)
+                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(52, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(133, 133, 133)
                 .addComponent(Titulo)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnSalir)
+                .addGap(25, 25, 25))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -122,41 +131,50 @@ public class EliminarOferta extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(Titulo)
-                        .addGap(24, 24, 24)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jNombreOferta)
-                            .addComponent(tfNombreOferta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(40, 40, 40)
-                        .addComponent(btnSalir)))
+                        .addGap(24, 24, 24))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnSalir)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jNombreOferta)
+                    .addComponent(tfNombreOferta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jDescripcion)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jFechaTermino, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jSelecionaFecha, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(44, 44, 44)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnEliminar)
-                    .addComponent(btnLimpiar))
-                .addContainerGap())
+                    .addComponent(jFechaTermino)
+                    .addComponent(tfFechaTermino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(25, 25, 25)
+                .addComponent(btnEliminar)
+                .addGap(22, 22, 22))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
-        LimpiarTextos();
-    }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-      // TODO add your handling code here:
+        
+        int opcion =JOptionPane.showConfirmDialog(null, "¿Está seguro que desea eliminar oferta?", "Confirmación", JOptionPane.YES_NO_OPTION);
+        if(opcion == JOptionPane.YES_OPTION)
+        {
+            try{
+                Oferta ofer = Registro.ObtenerOferta(codigo_oferta);
+                if(Registro.EliminarOferta(ofer)){
+                    JOptionPane.showMessageDialog(null, "Oferta eliminada con exito");
+                    ListaOferta.getInstancia().LlenarTabla();
+                    this.dispose();
+                }
+            } catch (Exception e){
+                JOptionPane.showMessageDialog(null, "Excepcion al eliminar oferta. " + e.getMessage());
+            }
+        }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     /**
@@ -200,14 +218,13 @@ public class EliminarOferta extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Titulo;
     private javax.swing.JToggleButton btnEliminar;
-    private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnSalir;
     private javax.swing.JLabel jDescripcion;
     private javax.swing.JLabel jFechaTermino;
     private javax.swing.JLabel jNombreOferta;
     private javax.swing.JScrollPane jScrollPane1;
-    private com.toedter.calendar.JDateChooser jSelecionaFecha;
     private javax.swing.JTextArea taDescripcion;
+    private javax.swing.JTextField tfFechaTermino;
     private javax.swing.JTextField tfNombreOferta;
     // End of variables declaration//GEN-END:variables
 }

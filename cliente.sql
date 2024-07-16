@@ -47,3 +47,35 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+INSERT INTO cliente (correo, nombre_cli) VALUES
+('juan.perez@example.com', 'Juan Perez'),
+('maria.lopez@example.com', 'Maria Lopez'),
+('carlos.gomez@example.com', 'Carlos Gomez'),
+('ana.martinez@example.com', 'Ana Martinez'),
+('luis.rodriguez@example.com', 'Luis Rodriguez'),
+('laura.fernandez@example.com', 'Laura Fernandez'),
+('jose.garcia@example.com', 'Jose Garcia'),
+('carmen.sanchez@example.com', 'Carmen Sanchez'),
+('miguel.ramos@example.com', 'Miguel Ramos'),
+('patricia.moreno@example.com', 'Patricia Moreno'),
+('francisco.ruiz@example.com', 'Francisco Ruiz'),
+('alicia.silva@example.com', 'Alicia Silva'),
+('roberto.torres@example.com', 'Roberto Torres'),
+('julia.diaz@example.com', 'Julia Diaz'),
+('fernando.mendez@example.com', 'Fernando Mendez'),
+('andrea.rivera@example.com', 'Andrea Rivera'),
+('pablo.vargas@example.com', 'Pablo Vargas'),
+('sofia.molina@example.com', 'Sofia Molina'),
+('ricardo.castro@example.com', 'Ricardo Castro'),
+('laura.soto@example.com', 'Laura Soto'),
+('daniel.ortega@example.com', 'Daniel Ortega'),
+('sara.delgado@example.com', 'Sara Delgado'),
+('manuel.gil@example.com', 'Manuel Gil'),
+('irene.ramos@example.com', 'Irene Ramos'),
+('jorge.romero@example.com', 'Jorge Romero'),
+('natalia.martin@example.com', 'Natalia Martin'),
+('sergio.herrera@example.com', 'Sergio Herrera'),
+('claudia.flores@example.com', 'Claudia Flores'),
+('adrian.diaz@example.com', 'Adrian Diaz'),
+('diana.martinez@example.com', 'Diana Martinez');

@@ -4,6 +4,11 @@
  */
 package vista;
 
+import controlador.Registro;
+import java.text.SimpleDateFormat;
+import javax.swing.JOptionPane;
+import modelo.Oferta;
+
 /**
  *
  * @author hecto
@@ -11,19 +16,29 @@ package vista;
 public class EnviarOferta extends javax.swing.JFrame {
      
     private static EnviarOferta instancia;
+    private int codigo_oferta;
     
-    public static EnviarOferta getInstancia(){
+    
+    public static EnviarOferta getInstancia(Oferta oferta){
         if(instancia == null){
-            instancia = new EnviarOferta();
+            instancia = new EnviarOferta(oferta);
         }
         return instancia;
     }
     /**
      * Creates new form EnviarOferta
      */
-    public EnviarOferta() {
+    
+    public EnviarOferta(){
+    }
+    
+    public EnviarOferta(Oferta oferta) {
         initComponents();
-        
+        codigo_oferta = oferta.getCod_oferta();
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+        tfNombreOferta.setText(oferta.getTit_oferta());
+        taDescripcion.setText(oferta.getDesc_oferta());
+        tfFechaTermino.setText(formato.format(oferta.getFecha_termino()));
     }
     
     /**
@@ -40,14 +55,14 @@ public class EnviarOferta extends javax.swing.JFrame {
         jDescripcion = new javax.swing.JLabel();
         btnSalir = new javax.swing.JButton();
         jFechaTermino = new javax.swing.JLabel();
-        btnLimpiar = new javax.swing.JButton();
-        btnEliminar = new javax.swing.JToggleButton();
+        btnEnviar = new javax.swing.JToggleButton();
         tfNombreOferta = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         taDescripcion = new javax.swing.JTextArea();
-        jSelecionaFecha = new com.toedter.calendar.JDateChooser();
+        tfFechaTermino = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         Titulo.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         Titulo.setText("Enviar Oferta");
@@ -55,7 +70,7 @@ public class EnviarOferta extends javax.swing.JFrame {
 
         jNombreOferta.setText("Nombre:");
 
-        jDescripcion.setText("Descripcion:");
+        jDescripcion.setText("Descripción:");
 
         btnSalir.setText("Volver");
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -64,20 +79,23 @@ public class EnviarOferta extends javax.swing.JFrame {
             }
         });
 
-        jFechaTermino.setText("Fecha de Termino:");
+        jFechaTermino.setText("Fecha de término:");
 
-        btnLimpiar.setText("Limpiar");
-        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+        btnEnviar.setText("Enviar");
+        btnEnviar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLimpiarActionPerformed(evt);
+                btnEnviarActionPerformed(evt);
             }
         });
 
-        btnEliminar.setText("Eliminar");
+        tfNombreOferta.setEditable(false);
 
+        taDescripcion.setEditable(false);
         taDescripcion.setColumns(20);
         taDescripcion.setRows(5);
         jScrollPane1.setViewportView(taDescripcion);
+
+        tfFechaTermino.setEditable(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -85,11 +103,11 @@ public class EnviarOferta extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(84, 84, 84)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jNombreOferta, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfNombreOferta, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(tfNombreOferta))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jDescripcion)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -102,17 +120,15 @@ public class EnviarOferta extends javax.swing.JFrame {
                 .addComponent(btnSalir)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(73, 73, 73)
-                .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnLimpiar)
-                .addGap(72, 72, 72))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jFechaTermino, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSelecionaFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(63, 63, 63))
+                .addComponent(tfFechaTermino, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(77, 77, 77))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(166, 166, 166)
+                .addComponent(btnEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -135,26 +151,40 @@ public class EnviarOferta extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jSelecionaFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jFechaTermino))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addGap(6, 6, 6)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnEliminar)
-                    .addComponent(btnLimpiar))
-                .addContainerGap())
+                    .addComponent(jFechaTermino)
+                    .addComponent(tfFechaTermino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(btnEnviar)
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
-    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
-        LimpiarTextos();
-    }//GEN-LAST:event_btnLimpiarActionPerformed
+    private void btnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarActionPerformed
+        
+        int opcion =JOptionPane.showConfirmDialog(null, "¿Está seguro que desea enviar esta oferta a todos los clientes registrados?", "Confirmación", JOptionPane.YES_NO_OPTION);
+        if(opcion == JOptionPane.YES_OPTION)
+        {
+            try{
+                Oferta ofer = Registro.ObtenerOferta(codigo_oferta);
+                if(Registro.EnviarOferta(ofer)){
+                    JOptionPane.showMessageDialog(null, "Oferta enviada con exito");
+                    ListaOferta.getInstancia().LlenarTabla();
+                    this.dispose();
+                }
+            } catch (Exception e){
+                JOptionPane.showMessageDialog(null, "Excepcion al enviar oferta. " + e.getMessage());
+            }
+        }
+    }//GEN-LAST:event_btnEnviarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -190,21 +220,17 @@ public class EnviarOferta extends javax.swing.JFrame {
             }
         });
     }
-    private void LimpiarTextos(){
-        taDescripcion.setText("");
-        tfNombreOferta.setText("");
-    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Titulo;
-    private javax.swing.JToggleButton btnEliminar;
-    private javax.swing.JButton btnLimpiar;
+    private javax.swing.JToggleButton btnEnviar;
     private javax.swing.JButton btnSalir;
     private javax.swing.JLabel jDescripcion;
     private javax.swing.JLabel jFechaTermino;
     private javax.swing.JLabel jNombreOferta;
     private javax.swing.JScrollPane jScrollPane1;
-    private com.toedter.calendar.JDateChooser jSelecionaFecha;
     private javax.swing.JTextArea taDescripcion;
+    private javax.swing.JTextField tfFechaTermino;
     private javax.swing.JTextField tfNombreOferta;
     // End of variables declaration//GEN-END:variables
 }

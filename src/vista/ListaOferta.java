@@ -5,8 +5,10 @@
 package vista;
 
 import controlador.Registro;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.Oferta;
 import vista.EliminarOferta;
@@ -31,12 +33,6 @@ public class ListaOferta extends javax.swing.JFrame {
     }
     public ListaOferta() {
         initComponents();
-
-         ofertas.add(new Oferta(1, "Oferta 1", "Descripción de la oferta 1", new Date(2024, 7, 31)));
-         ofertas.add(new Oferta(2, "Oferta 2", "Descripción de la oferta 2", new Date(2024, 8, 15)));
-         ofertas.add(new Oferta(3, "Oferta 3", "Descripción de la oferta 3", new Date(2024, 9, 10)));
-         ofertas.add(new Oferta(4, "Oferta 4", "Descripción de la oferta 4", new Date(2024, 10, 5)));
-         ofertas.add(new Oferta(5, "Oferta 5", "Descripción de la oferta 5", new Date(2024, 11, 25)));
          LlenarTabla();
     }
 
@@ -167,11 +163,22 @@ public class ListaOferta extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-        ModificarOferta c = ModificarOferta.getInstancia();
-        c.setVisible(true);
+        
+        if(jtListaOfertas.getSelectedRow() == -1)
+        {
+             JOptionPane.showMessageDialog(null, "Seleccione una oferta antes de escoger una acción.");
+        }
+        else
+        {
+            selectedCod = Integer.parseInt( jtListaOfertas.getValueAt(jtListaOfertas.getSelectedRow(), 0).toString());     
+            ModificarOferta c = ModificarOferta.getInstancia(Registro.ObtenerOferta(selectedCod));
+            c.setVisible(true);
+        }
+
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void jBuscadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBuscadorActionPerformed
@@ -188,13 +195,31 @@ public class ListaOferta extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        EliminarOferta n = EliminarOferta.getInstancia();
-        n.setVisible(true);
+        
+        if(jtListaOfertas.getSelectedRow() == -1)
+        {
+             JOptionPane.showMessageDialog(null, "Seleccione una oferta antes de escoger una acción.");
+        }
+        else
+        {
+            selectedCod = Integer.parseInt( jtListaOfertas.getValueAt(jtListaOfertas.getSelectedRow(), 0).toString());     
+            EliminarOferta c = EliminarOferta.getInstancia(Registro.ObtenerOferta(selectedCod));
+            c.setVisible(true);
+        }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnEnviarOfertaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarOfertaActionPerformed
-        EnviarOferta a = EnviarOferta.getInstancia();
-        a.setVisible(true);
+        
+        if(jtListaOfertas.getSelectedRow() == -1)
+        {
+             JOptionPane.showMessageDialog(null, "Seleccione una oferta antes de escoger una acción.");
+        }
+        else
+        {
+            selectedCod = Integer.parseInt( jtListaOfertas.getValueAt(jtListaOfertas.getSelectedRow(), 0).toString());     
+            EnviarOferta c = EnviarOferta.getInstancia(Registro.ObtenerOferta(selectedCod));
+            c.setVisible(true);
+        }
     }//GEN-LAST:event_btnEnviarOfertaActionPerformed
          
     /**
@@ -234,7 +259,7 @@ public class ListaOferta extends javax.swing.JFrame {
     
     public void LlenarTabla(){
         Object[][] data = {};
-        String[] columnNames = {"Código#", "Titulo", "Descripcion","Fecha"};
+        String[] columnNames = {"Código#", "Titulo", "Descripción","Fecha término"};
         tableModel = new DefaultTableModel(data,columnNames) {
 
             @Override
@@ -242,18 +267,19 @@ public class ListaOferta extends javax.swing.JFrame {
                 return false;
             }
         };
-        Registro reg = new Registro();
         tableModel.setRowCount(0);
+        ofertas = Registro.ObtenerListaOfertas();
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
         //ArrayList<Oferta> lista = Registro.ObtenerListaProductos();
         Object[] registro = new Object[4];
         
-        for (Oferta producto : ofertas) {
+        for (Oferta oferta : ofertas) {
             
-            Oferta prod = producto;
-            registro[0] = prod.getCod_oferta();
-            registro[1] = prod.getTit_oferta();
-            registro[2] = prod.getDesc_oferta();
-            registro[3] = prod.getFecha_termino();
+            Oferta ofer = oferta;
+            registro[0] = ofer.getCod_oferta();
+            registro[1] = ofer.getTit_oferta();
+            registro[2] = ofer.getDesc_oferta();
+            registro[3] = formato.format(ofer.getFecha_termino());
             
             tableModel.addRow(registro);
         }

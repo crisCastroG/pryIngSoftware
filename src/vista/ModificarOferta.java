@@ -4,22 +4,38 @@
  */
 package vista;
 
+import controlador.Registro;
+import java.text.SimpleDateFormat;
+import javax.swing.JOptionPane;
+import modelo.Oferta;
+
 /**
  *
  * @author hecto
  */
 public class ModificarOferta extends javax.swing.JFrame {
 
-     private static ModificarOferta instancia;
+    private static ModificarOferta instancia;
+    private Oferta oferta;
+    private int codigo_oferta;
     
-    public static ModificarOferta getInstancia(){
+    public static ModificarOferta getInstancia(Oferta oferta){
         if(instancia == null){
-            instancia = new ModificarOferta();
+            instancia = new ModificarOferta(oferta);
         }
         return instancia;
     }
     public ModificarOferta() {
         initComponents();
+    }
+    
+    public ModificarOferta(Oferta oferta){     
+        initComponents();
+        codigo_oferta = oferta.getCod_oferta();
+        tfNombreOferta.setText(oferta.getTit_oferta());
+        taDescripcion.setText(oferta.getDesc_oferta());
+        jFechaSelecion.setDate(oferta.getFecha_termino());
+        
     }
 
     /**
@@ -44,10 +60,11 @@ public class ModificarOferta extends javax.swing.JFrame {
         jFechaSelecion = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jNombreOferta.setText("Nombre:");
 
-        jDescripcion.setText("Descripcion:");
+        jDescripcion.setText("Descripción:");
 
         btnSalir.setText("Volver");
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -56,7 +73,7 @@ public class ModificarOferta extends javax.swing.JFrame {
             }
         });
 
-        jFechaTermino.setText("Fecha de Termino:");
+        jFechaTermino.setText("Fecha de término:");
 
         btnLimpiar.setText("Limpiar");
         btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
@@ -66,6 +83,11 @@ public class ModificarOferta extends javax.swing.JFrame {
         });
 
         btnModificar.setText("Modificar");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
 
         Titulo.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         Titulo.setText("Modificar Oferta");
@@ -82,34 +104,30 @@ public class ModificarOferta extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(Titulo)
-                .addGap(98, 98, 98))
+                .addGap(29, 29, 29)
+                .addComponent(btnSalir)
+                .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(76, 76, 76)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(8, 8, 8)
+                        .addGap(2, 2, 2)
                         .addComponent(jNombreOferta, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfNombreOferta, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
-                        .addComponent(btnSalir))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(tfNombreOferta))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jDescripcion)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jFechaTermino, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jFechaSelecion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(btnModificar)
-                                    .addGap(87, 87, 87)
-                                    .addComponent(btnLimpiar))))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(btnModificar)
+                        .addGap(87, 87, 87)
+                        .addComponent(btnLimpiar))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jFechaTermino, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jFechaSelecion, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jDescripcion)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -117,14 +135,14 @@ public class ModificarOferta extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(Titulo)
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jNombreOferta)
-                            .addComponent(tfNombreOferta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(Titulo))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(40, 40, 40)
+                        .addGap(25, 25, 25)
                         .addComponent(btnSalir)))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jNombreOferta)
+                    .addComponent(tfNombreOferta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jDescripcion)
@@ -137,10 +155,11 @@ public class ModificarOferta extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnLimpiar)
                     .addComponent(btnModificar))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
@@ -150,6 +169,29 @@ public class ModificarOferta extends javax.swing.JFrame {
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
         LimpiarTextos();
     }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        int opcion =JOptionPane.showConfirmDialog(null, "¿Está seguro que desea modificar oferta?", "Confirmación", JOptionPane.YES_NO_OPTION);
+        if(opcion == JOptionPane.YES_OPTION)
+        {
+            try{
+                Oferta ofer = Registro.ObtenerOferta(codigo_oferta);
+                ofer.setTit_oferta(tfNombreOferta.getText());
+                ofer.setDesc_oferta(taDescripcion.getText());
+                ofer.setFecha_termino((jFechaSelecion.getDate()));
+                if(ofer.getTit_oferta().isEmpty() || ofer.getDesc_oferta().isEmpty() || ofer.getFecha_termino() == null ) {
+                     JOptionPane.showMessageDialog(null, "Error al modificar oferta, los campos no pueden estar vacios");
+                }
+                else if(Registro.ModificarOferta(ofer)){
+                    JOptionPane.showMessageDialog(null, "Oferta modificada con exito");
+                    ListaOferta.getInstancia().LlenarTabla();
+                    this.dispose();
+                }
+            } catch (Exception e){
+                JOptionPane.showMessageDialog(null, "Excepcion al modificar oferta, ingrese una fecha válida. " + e.getMessage());
+            }
+        }
+    }//GEN-LAST:event_btnModificarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -188,6 +230,7 @@ public class ModificarOferta extends javax.swing.JFrame {
     private void LimpiarTextos(){
         taDescripcion.setText("");
         tfNombreOferta.setText("");
+        jFechaSelecion.setDate(null);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Titulo;

@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import modelo.Cliente;
 import modelo.Oferta;
 import modelo.Producto;
 
@@ -189,7 +190,8 @@ public class Registro {
             }
             return productos;
         }
-      public static ArrayList<Producto> ObtenerListaBajoStock() {
+    
+    public static ArrayList<Producto> ObtenerListaBajoStock() {
             ArrayList<Producto> productos = new ArrayList<Producto>();
             try {
                 Connection conexion = Conexion.getConexion();
@@ -211,14 +213,16 @@ public class Registro {
             }
             return productos;
         }
-      public static Boolean AgregarOferta (Oferta oferta) {
+    
+    public static Boolean AgregarOferta (Oferta oferta) {
         try {
             Connection conexion = Conexion.getConexion();
-            String query = "INSERT INTO oferta VALUES (?,?,DATE(?)) ";
+            SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+            String query = "INSERT INTO oferta(nombre, descripcion, fecha_term) VALUES (?, ?, DATE(?)) ";
             PreparedStatement agregar = conexion.prepareStatement(query);
             agregar.setString(1, oferta.getTit_oferta());
             agregar.setString(2, oferta.getDesc_oferta());
-            agregar.setString(3, oferta.getFecha_termino().toString());
+            agregar.setString(3, formato.format(oferta.getFecha_termino()));
             agregar.execute();
         } catch (SQLException s) {
             JOptionPane.showMessageDialog(null, "Error SQL al agregar oferta " + s.getMessage());
@@ -229,14 +233,16 @@ public class Registro {
         }
         return true;
     }
-      public static Boolean ModificarOferta (Oferta oferta) {
+      
+    public static Boolean ModificarOferta (Oferta oferta) {
         try {
             Connection conexion = Conexion.getConexion();
+            SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
             String query = "UPDATE oferta SET nombre = ?,descripcion = ?,fecha_term = DATE(?) WHERE codigo = ?";
             PreparedStatement modificar = conexion.prepareStatement(query);
             modificar.setString(1, oferta.getTit_oferta());
             modificar.setString(2, oferta.getDesc_oferta());
-            modificar.setString(3, oferta.getFecha_termino().toString());
+            modificar.setString(3, formato.format(oferta.getFecha_termino()));
             modificar.setInt(4,oferta.getCod_oferta());
             modificar.execute();
         } catch (SQLException s) {
@@ -248,7 +254,8 @@ public class Registro {
         }
         return true;
       }
-      public static Boolean EliminarOferta (Oferta oferta) {
+    
+    public static Boolean EliminarOferta (Oferta oferta) {
         try {
             Connection conexion = Conexion.getConexion();
             String query = "DELETE FROM oferta WHERE codigo = ?";
@@ -264,7 +271,8 @@ public class Registro {
         }
         return true;
       }
-      public static ArrayList<Oferta> ObtenerListaOfertas() {
+    
+    public static ArrayList<Oferta> ObtenerListaOfertas() {
         ArrayList<Oferta> ofertas = new ArrayList<Oferta>();
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-mm-dd");
         try {
@@ -274,8 +282,9 @@ public class Registro {
             ResultSet rs = listarTodos.executeQuery();
             while (rs.next()) {
                 Oferta ofer = new Oferta();
-                ofer.setCod_oferta(rs.getInt("cod_oferta"));
-                ofer.setTit_oferta(rs.getString("tit_oferta"));
+                ofer.setCod_oferta(rs.getInt("codigo"));
+                ofer.setTit_oferta(rs.getString("nombre"));
+                ofer.setDesc_oferta(rs.getString("descripcion"));
                 ofer.setFecha_termino(formato.parse( rs.getString("fecha_term")));
                 ofertas.add(ofer);
             }
@@ -286,5 +295,57 @@ public class Registro {
             JOptionPane.showMessageDialog(null, "Error al mostrar ofertas " + e.getMessage());
         }
         return ofertas;
- }
+    }
+    
+    public static Oferta ObtenerOferta(int codigo_oferta){
+
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-mm-dd");
+        try {
+            Connection conexion = Conexion.getConexion();
+            String query = "SELECT codigo, nombre, descripcion, fecha_term FROM oferta WHERE codigo = ?";
+            PreparedStatement buscarOferta = conexion.prepareStatement(query);
+            buscarOferta.setInt(1, codigo_oferta);
+            ResultSet rs = buscarOferta.executeQuery();
+            while (rs.next()) {
+                Oferta ofer = new Oferta();
+                ofer.setCod_oferta(rs.getInt("codigo"));
+                ofer.setTit_oferta(rs.getString("nombre"));
+                ofer.setDesc_oferta(rs.getString("descripcion"));
+                ofer.setFecha_termino(formato.parse( rs.getString("fecha_term")));
+                return ofer;
+            }
+
+        } catch (SQLException s) {
+            JOptionPane.showMessageDialog(null, "Error SQL al buscar oferta " + s.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al buscar oferta " + e.getMessage());
+        }
+        return null;
+    }
+    
+    public static Boolean EnviarOferta(Oferta oferta)
+    {
+        ArrayList<Cliente> clientes = new ArrayList<Cliente>();
+        try {
+            Connection conexion = Conexion.getConexion();
+            String query = "SELECT * FROM cliente";
+            PreparedStatement listarTodos = conexion.prepareStatement(query);
+            ResultSet rs = listarTodos.executeQuery();
+            while (rs.next()) {
+                Cliente cli = new Cliente();
+                cli.setCorreo(rs.getString("correo"));
+                cli.setNombre_cli(rs.getString("nombre_cli"));
+                clientes.add(cli);
+            }
+            for (Cliente cliente : clientes) {
+                //Aqui deberá ir función para enviar al correo de los clientes la oferta
+            }
+
+        } catch (SQLException s) {
+            JOptionPane.showMessageDialog(null, "Error SQL al mostrar ofertas " + s.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al mostrar ofertas " + e.getMessage());
+        }
+        return true;
+    }
 }
