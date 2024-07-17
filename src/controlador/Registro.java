@@ -274,7 +274,7 @@ public class Registro {
     
     public static ArrayList<Oferta> ObtenerListaOfertas() {
         ArrayList<Oferta> ofertas = new ArrayList<Oferta>();
-        SimpleDateFormat formato = new SimpleDateFormat("yyyy-mm-dd");
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
         try {
             Connection conexion = Conexion.getConexion();
             String query = "SELECT * FROM oferta";
@@ -299,7 +299,7 @@ public class Registro {
     
     public static Oferta ObtenerOferta(int codigo_oferta){
 
-        SimpleDateFormat formato = new SimpleDateFormat("yyyy-mm-dd");
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
         try {
             Connection conexion = Conexion.getConexion();
             String query = "SELECT codigo, nombre, descripcion, fecha_term FROM oferta WHERE codigo = ?";
@@ -348,4 +348,31 @@ public class Registro {
         }
         return true;
     }
+     public static ArrayList<Oferta> ObtenerListaOfertasFiltrada(String busqueda) {
+            ArrayList<Oferta> ofertas = new ArrayList<Oferta>();
+             SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                Connection conexion = Conexion.getConexion();
+                String query = "SELECT * FROM oferta WHERE codigo LIKE ? OR fecha_term LIKE ? OR nombre LIKE ?";
+                PreparedStatement buscar = conexion.prepareStatement(query);
+                buscar.setString(1, busqueda);
+                buscar.setString(2, "%"+busqueda+"%");
+                buscar.setString(3, "%"+busqueda+"%");
+                ResultSet rs = buscar.executeQuery();
+                while (rs.next()) {
+                    Oferta ofer = new Oferta();
+                    ofer.setCod_oferta(rs.getInt("codigo"));
+                    ofer.setTit_oferta(rs.getString("nombre"));
+                    ofer.setDesc_oferta(rs.getString("descripcion"));
+                    ofer.setFecha_termino(formato.parse( rs.getString("fecha_term")));
+                    ofertas.add(ofer);
+                }
+
+            } catch (SQLException s) {
+                JOptionPane.showMessageDialog(null, "Error SQL al mostrar ofertas " + s.getMessage());
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Error al mostrar ofertas " + e.getMessage());
+            }
+            return ofertas;
+        }
 }

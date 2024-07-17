@@ -8,7 +8,7 @@ import controlador.Registro;
 import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 import modelo.Oferta;
-import sun.security.ssl.Debug;
+
 
 /**
  *
